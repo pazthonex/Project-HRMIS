@@ -19,5 +19,17 @@ Route::get('/', function () {
     return view('pages.dashboard');
 });
 
+Route::group(['prefix' => 'employee'], function() {
+    Route::get('/' , [EmployeeController::class, 'index']);
+    Route::get('/edit' , [EmployeeController::class, 'edit'])->name('employee.edit');
+    Route::post('/create' , [EmployeeController::class, 'store'])->name('employee.add');
+    Route::post('/update' , [EmployeeController::class, 'update'])->name('employee.update');
+});
 Route::get('dashboard' , [DashboardController::class, 'index']);
-Route::get('employee' , [EmployeeController::class, 'index']);
+
+
+
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

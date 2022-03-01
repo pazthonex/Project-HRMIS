@@ -15,7 +15,7 @@
             </li>
             <li class=" navigation-header"><span>Apps</span>
             </li>
-            <li class=" nav-item"><a href="/employee"><i class="bx bx-envelope"></i><span class="menu-title" data-i18n="Email">Employee</span></a>
+            <li class=" nav-item"><a href="/employee"><i class="bx bx-user"></i><span class="menu-title" data-i18n="Email">Employee</span></a>
             </li>
             <li class=" nav-item"><a href="#"><i class="bx bx-file"></i><span class="menu-title" data-i18n="Invoice">Other  </span></a>
                 <ul class="menu-content">
