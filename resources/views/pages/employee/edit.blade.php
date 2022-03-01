@@ -60,14 +60,14 @@
                 <div class="tab-content">
                     <div class="tab-pane active" id="personal" aria-labelledby="home-tab" role="tabpanel">
                         <div class="card">
-                            <form class="form-horizontal" id='form-employee-personal-profile' >
+                            <form class="form-horizontal" id='form-update-employee-personal-profile' enctype="multipart/form-data" >
                                 <input type="hidden" name="id" value="{{ $employee->id }}">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Firstname*</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control form-control-sm" data-validation-required-message="This field is required"
+                                                <input type="text" name="firstname" class="form-control form-control-sm" data-validation-required-message="This field is required"
                                                 value="{{ $employee->FirstName }}"
                                                 >
                                             </div>
@@ -77,7 +77,7 @@
                                         <div class="form-group">
                                             <label>Middlename</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control form-control-sm" data-validation-required-message="This field is required" 
+                                                <input type="text" name="middlename" class="form-control form-control-sm" data-validation-required-message="This field is required" 
                                                 value="{{ $employee->MiddleName }}"
                                                 >
                                             </div>
@@ -87,7 +87,7 @@
                                         <div class="form-group">
                                             <label>Lastname *</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control form-control-sm" data-validation-required-message="This field is required"
+                                                <input type="text" name="lastname" class="form-control form-control-sm" data-validation-required-message="This field is required"
                                                 value="{{ $employee->LastName }}">
                                             </div>
                                         </div>
@@ -99,7 +99,7 @@
                                         <div class="form-group">
                                             <label>Ext</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" data-validation-required-message="This field is required" placeholder=""
+                                                <input type="text" name="ext" class="form-control" data-validation-required-message="This field is required" placeholder=""
                                                 value="{{ $employee->Ext }}">
                                             </div>
                                         </div>
@@ -108,7 +108,7 @@
                                         <div class="form-group">
                                             <label>Suffix</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" data-validation-required-message="This field is required" placeholder=""
+                                                <input type="text" name="suffix" class="form-control" data-validation-required-message="This field is required" placeholder=""
                                                 value="{{ $employee->Suffix }}"
                                                 >
                                             </div>
@@ -118,7 +118,7 @@
                                         <div class="form-group">
                                             <label>Prefix</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" data-validation-required-message="This field is required" placeholder=""
+                                                <input type="text" name="prefix" class="form-control" data-validation-required-message="This field is required" placeholder=""
                                                 value="{{ $employee->Prefix }}"
                                                 >
                                             </div>
@@ -128,7 +128,7 @@
                                         <div class="form-group">
                                             <label>Gender</label>
                                             <div class="controls">
-                                                <select class='form-control  border-input' data-validation-required-message="This field is required" name='sex' value='{{ $employee->Sex }}' >
+                                                <select class='form-control  border-input' name='sex' value='{{ $employee->Sex }}' >
                                                     <option value="" disabled selected>Gender</option>
                                                         <option value='Male' >Male</option>
                                                         <option value='Female' >Female</option>
@@ -143,7 +143,7 @@
                                         <div class="form-group">
                                             <label>Civil Status</label>
                                             <div class="controls">
-                                                <select class='form-control  border-input' data-validation-required-message="This field is required"  name='civilstatus' 
+                                                <select class='form-control  border-input'  name='civilstatus' 
                                                 value="{{ $employee->CivilStatus }}"
                                                 >
                                                         <option value='Single' >Single</option>
@@ -157,7 +157,7 @@
                                         <div class="form-group">
                                             <label>Current Item</label>
                                             <div class="controls">
-                                                <select class='form-control  border-input'  name='currentitem'  data-validation-required-message="This field is required"  
+                                                <select class='form-control  border-input'  name='currentitem' 
                                                 value="{{ $employee->CurrentItem }}"
                                                 >
                                                         <option value='1' >Current Item 01</option>
@@ -171,7 +171,7 @@
                                         <div class="form-group">
                                             <label>Date of Birth</label>
                                             <div class="controls">
-                                                <input type="date" name="text" class="form-control" data-validation-required-message="This field is required"  value="{{ $employee->DateOfBirth }}" >
+                                                <input type="date" name="dateofbirth" class="form-control"  value="{{ $employee->DateOfBirth }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -234,7 +234,7 @@
                                         <div class="form-group">
                                             <label>Telephone</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" data-validation-required-message="This field is required" value="{{ $employee->Telephone }}" >
+                                                <input type="text" name="telephone" class="form-control" value="{{ $employee->Telephone }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -242,13 +242,13 @@
                                         <div class="form-group">
                                             <label>Cellphone</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" data-validation-required-message="This field is required" value="{{ $employee->Cellphone }}" >
+                                                <input type="text" name="cellphone" class="form-control"  value="{{ $employee->Cellphone }}" >
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <hr>
-                                <button type="button" class="btn btn-sm btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-sm btn-primary" id="btn-update-employee-personal-profile">Save Changes</button>
                             </form>
                         </div>
                     </div>
@@ -525,7 +525,7 @@
         $(function(){
             $('#btn-edit-employee-address').on('click', function(e){
                 e.preventDefault();
-
+                console.log('edit-employeee-address');
                 $.ajax({
                     url: '/employee/update',
                     method: 'post',
@@ -537,15 +537,19 @@
                          $('#btn-edit-employee-address').text('Loading..');
                     },
                     success:function(data){
-                        if(data.code == 0){
+
+                        if(data.status === 401){
                             $.each(data.error, function(prefix,val){
-                                $('#add-employee-form').find('span.'+prefix+'_error').text(val[0]);
+                                $('#form-employee-address').find('span.'+prefix+'_error').text(val[0]);
                             });
-                        }else{
+                        }else if(data.status === 200){
+                            console.log('success');
                           //  $('#add-employee-form')[0].reset();
                             //alert(data.msg);
                          //   $('#countries-table').DataTable().ajax.reload(null,false);
                             toastr.success(data.msg);
+                        }else {
+                            window.location.href = '/employee'
                         }
                         $('#btn-edit-employee-address').text('Save Changes');
                     }
@@ -554,6 +558,44 @@
 
 
             });
+            $('#btn-update-employee-personal-profile').on('click', function(e){
+                e.preventDefault();
+                console.log('edit-employeee-profile');
+                $.ajax({
+                    url: '/employee/update',
+                    method: 'post',
+                    data: $('#form-update-employee-personal-profile').serialize(),
+                    // processData: false,
+                    // dataType: false,
+                    // contentType: false,
+                    beforeSend:function(){
+                        console.log('111');
+                         $('#btn-update-employee-personal-profile').text('Loading..');
+                    },
+                    success:function(data){
+                        console.log('DATA PROFILE:',data);
+
+                        if(data.status === 401){
+                            $.each(data.error, function(prefix,val){
+                                $('#add-employee-form').find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else if(data.status === 200){
+                          //  $('#add-employee-form')[0].reset();
+                            //alert(data.msg);
+                         //   $('#countries-table').DataTable().ajax.reload(null,false);
+                            toastr.success(data.msg);
+                        }else {
+                            window.location.href = '/employee'
+                        }
+                        $('#btn-update-employee-personal-profile').text('Save Changes');
+                    }
+
+                });
+
+
+            });
+
+            
 
 
             });

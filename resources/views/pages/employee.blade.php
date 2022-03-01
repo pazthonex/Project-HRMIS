@@ -256,6 +256,7 @@
                                             <label>Email Address</label>
                                             <div class="controls">
                                                 <input type="email" name="emailaddress" class="form-control" >
+                                                <span class="text-danger error-text emailaddress_error"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -323,16 +324,18 @@
                     success:function(data){
                      
                         console.log("data:::",data);
-                        if(data.code == 0){
+                        if(data.status === 401){
                             $.each(data.error, function(prefix,val){
                                 $('#add-employee-form').find('span.'+prefix+'_error').text(val[0]);
                             });
-                        }else{
+                        }else if(data.status === 200){
                           //  $('#add-employee-form')[0].reset();
                             //alert(data.msg);
                          //   $('#countries-table').DataTable().ajax.reload(null,false);
                          $('#add-employee').modal('hide');
                             toastr.success(data.msg);
+                        }else {
+                           window.location.href = '/employee'
                         }
 
                     }

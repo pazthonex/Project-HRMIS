@@ -33,7 +33,7 @@ class EmployeeController extends Controller
    }
    public function store(Request $request){
 
-   
+    $aes = new EncryptDecrypt();
   $validator = Validator::make($request->all(),[
     'firstname' => 'required',
     'lastname' => 'required',
@@ -41,11 +41,11 @@ class EmployeeController extends Controller
    ]);
 
     if(!$validator->passes()){
-        return response()->json(['code'=>0,'error'=>$validator->errors()->toArray()]);
+        return response()->json(['status'=>401,'error'=>$validator->errors()->toArray()]);
     }
    
     $employee = new Employee();
-            $employee->FirstName = $aes->encrypt($request->firstnam);
+            $employee->FirstName = $request->firstname;
             $employee->MiddleName = $request->middlename;
             $employee->LastName = $request->lastname;
             $employee->Ext  = $request->ext;
@@ -62,10 +62,25 @@ class EmployeeController extends Controller
             $employee->DateOfBirth = $aes->encrypt($request->dateofbirth);
             $employee->PlaceOfBirth = $aes->encrypt($request->placeofbirth);
             $employee->save();
-            return response()->json(['code'=>1,'msg'=>'Employee Added!']);
+            return response()->json(
+              ['status'=>200,
+              'msg'=>'Employee Added!']);
    }
 
    public function update(Request $request){
+   //  dd($request->all());
+    $aes = new EncryptDecrypt();
+    $validator = Validator::make($request->all(),[
+      'firstname' => 'required',
+      'lastname' => 'required',
+      'emailaddress' => 'required|email|unique:employee,EmailAddress,'.$request->id,
+     ]);
+  
+      if(!$validator->passes()){
+          return response()->json(['status'=>401,'error'=>$validator->errors()->toArray()]);
+      }
+
+
     $employee = Employee::find($request->id);
  
     //dd($request->all());
@@ -111,7 +126,7 @@ class EmployeeController extends Controller
         $employee->update();
     }           
 
-    return response()->json(['code'=>1,'msg'=>'Employee Updated!']);
+    return response()->json(['status'=>200,'msg'=>'Employee Updated!']);
    }
 
 
