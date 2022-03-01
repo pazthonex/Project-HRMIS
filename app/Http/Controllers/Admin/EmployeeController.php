@@ -26,8 +26,11 @@ class EmployeeController extends Controller
     }
     public function edit(Request $request){
         $employee = Employee::find($request->id);
+        $department = Department::all();
+        $aes = new EncryptDecrypt();
        if($employee){
-            return view('pages.employee.edit', compact('employee'));
+            return view('pages.employee.edit', compact('employee','department'), [
+              'aes' => $aes]);
         }
       return redirect('/employee');
    }
@@ -51,16 +54,17 @@ class EmployeeController extends Controller
             $employee->Ext  = $request->ext;
             $employee->Prefix  = $request->prefix;
             $employee->Suffix  = $request->suffix;
-            $employee->Sex  = $aes->encrypt($request->sex);
-            $employee->CivilStatus  = $aes->encrypt($request->civilstatus);
+            $employee->Sex  = (empty($request->sex)?"":$aes->encrypt($request->sex));
+            $employee->CivilStatus  = (empty($request->civilstatus)?"":$aes->encrypt($request->civilstatus));
+            $employee->CitizenShip  = (empty($request->citizenship)?"":$aes->encrypt($request->citizenship));
             $employee->CurrentItem = $request->currentitem;
             $employee->EmploymentStatus  = $request->employmentstatus;
             $employee->Department  = $request->department;
             $employee->EmailAddress  = $request->emailaddress;
             $employee->Telephone  = $request->telephone;
             $employee->Cellphone  = $request->cellphone;
-            $employee->DateOfBirth = $aes->encrypt($request->dateofbirth);
-            $employee->PlaceOfBirth = $aes->encrypt($request->placeofbirth);
+            $employee->DateOfBirth = (empty($request->dateofbirth)?"":$aes->encrypt($request->dateofbirth));
+            $employee->PlaceOfBirth = (empty($request->placeofbirth)?"":$aes->encrypt($request->placeofbirth));
             $employee->save();
             return response()->json(
               ['status'=>200,
@@ -68,65 +72,84 @@ class EmployeeController extends Controller
    }
 
    public function update(Request $request){
-   //  dd($request->all());
+    // dd($request->all());
     $aes = new EncryptDecrypt();
-    $validator = Validator::make($request->all(),[
-      'firstname' => 'required',
-      'lastname' => 'required',
-      'emailaddress' => 'required|email|unique:employee,EmailAddress,'.$request->id,
-     ]);
-  
-      if(!$validator->passes()){
-          return response()->json(['status'=>401,'error'=>$validator->errors()->toArray()]);
-      }
-
-
     $employee = Employee::find($request->id);
- 
-    //dd($request->all());
     if($employee){
+      
+      if($request->updatetype == 'personalprofile'){
+        $validator = Validator::make($request->all(),[
+          'firstname' => 'required',
+          'lastname' => 'required',
+          'emailaddress' => 'required|email|unique:employee,EmailAddress,'.$request->id,
+         ]);
+      
+          if(!$validator->passes()){
+              return response()->json(['status'=>401,'error'=>$validator->errors()->toArray()]);
+          }
         $employee->FirstName = $request->firstname;
-        $employee->MiddleName = $request->lastname;
+        $employee->MiddleName = $request->middlename;
         $employee->LastName = $request->lastname;
-        $employee->DateOfBirth = $request->dateofbirth;
-        $employee->PlaceOfBirth = $request->placeofbirth;
-        $employee->Sex = $request->sex;
-        $employee->CivilStatus = $request->civilstatus;
-        $employee->Citizenship = $request->citizenship;
-        $employee->TIN = $request->tin;
-        $employee->GSISID = $request->gsisid;
-        $employee->PagIbigID = $request->pagibigid;
-        $employee->PhilHealth = $request->philhealth;
-        $employee->SSS = $request->sss;
-        $employee->Telephone = $request->telephone;
-        $employee->Cellphone = $request->cellphone;
-        $employee->EmailAddress = $request->emailaddress;
-        $employee->AgencyNumber = $request->agencynumber;
-        $employee->EmploymentStatus = $request->employmentstatus;
-        $employee->CurrentItem = $request->currentitem;
-        $employee->Department = $request->department;
         $employee->Ext = $request->ext;
-        $employee->Height = $request->height;
-        $employee->Weight = $request->weight;
-        $employee->BloodType = $request->bloodtype;
-        $employee->RTelephone = $request->rtelephone;
-        $employee->RHouseNo = $request->rhouseno;
-        $employee->RHouseStreet = $request->rhousestreet;
-        $employee->RSubDivision = $request->rsubdivision;
-        $employee->PHouseNo = $request->phouseno;
-        $employee->PHouseStreet = $request->phousestreet;
-        $employee->PSubDivision = $request->psubdivision;
-        $employee->RBarangay = $request->rbarangay;
-        $employee->PBarangay = $request->pbarangay;
-        $employee->RZip = $request->rzip;
-        $employee->PZip = $request->pzip;
         $employee->Prefix = $request->prefix;
         $employee->Suffix = $request->suffix;
-        $employee->LoginComputation = $request->logincomputation;
-        $employee->update();
+        $employee->Sex = (empty($request->sex)?"":$aes->encrypt($request->sex));
+        $employee->CurrentItem = $request->currentitem;
+        $employee->PlaceOfBirth = (empty($request->placeofbirth)?"":$aes->encrypt($request->placeofbirth));
+        $employee->CivilStatus = (empty($request->civilstatus)?"":$aes->encrypt($request->civilstatus));
+        $employee->Citizenship = (empty($request->citizenship)?"":$aes->encrypt($request->citizenship));
+        $employee->EmailAddress = $request->emailaddress;
+        $employee->Telephone = $request->telephone;
+        $employee->Cellphone = $request->cellphone;
+        $employee->DateOfBirth = (empty($request->dateofbirth)?"":$aes->encrypt($request->dateofbirth));
+        $employee->Department = $request->department;
+        $employee->EmploymentStatus = $request->employmentstatus;
+      }
+      if($request->updatetype == 'address'){
+        $employee->PHouseNo = (empty($request->phouseno)?"":$aes->encrypt($request->phouseno));
+        $employee->PHouseStreet = (empty($request->phousestreet)?"":$aes->encrypt($request->phousestreet));
+        $employee->PSubDivision = $aes->encrypt($request->psubdivision);
+        $employee->PBarangay = $aes->encrypt($request->pbarangay);
+        $employee->PZip = $aes->encrypt($request->pzip);
+        $employee->RTelephone = $aes->encrypt($request->ptelephone);
+        $employee->RHouseNo = $aes->encrypt($request->rhouseno);
+        $employee->RHouseStreet = $aes->encrypt($request->rhousestreet);
+        $employee->RSubDivision = $aes->encrypt($request->rsubdivision);
+        $employee->RBarangay = $aes->encrypt($request->rbarangay);
+        $employee->RZip = $aes->encrypt($request->rzip);
+        $employee->RTelephone = $aes->encrypt($request->rtelephone);
+     }
+     if($request->updatetype == 'cardnumber'){
+      $employee->TIN = $request->tin;
+      $employee->GSISID = $request->gsisid;
+      $employee->PagIbigID = $request->pagibigid;
+      $employee->PhilHealth = $request->philhealth;
+      $employee->SSS = $request->sss;
+      $employee->Height = $request->height;
+      $employee->Weight = $request->weight;
+      $employee->BloodType = $request->bloodtype;
+     }
+     if($request->updatetype == 'other'){
+      $employee->AgencyNumber = $request->agencynumber;
+      $employee->LoginComputation = $request->logincomputation;
+      $employee->isactive = $request->isActive;
+     }
+     $employee->update();
+     return response()->json(['status'=>200,'msg'=>'Employee Updated!']);
     }           
+    return view('pages.employee');
+   
+   }
 
-    return response()->json(['status'=>200,'msg'=>'Employee Updated!']);
+
+   public function destroy(Request $request){
+
+    $employee = Employee::find($request->id);
+        if($employee){
+            $employee->delete();
+            return response()->json(['status'=>200,'msg'=>'Employee Deleted!']);
+        }
+        return view('pages.employee');
    }
 
 

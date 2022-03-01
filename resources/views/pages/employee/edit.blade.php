@@ -62,6 +62,7 @@
                         <div class="card">
                             <form class="form-horizontal" id='form-update-employee-personal-profile' enctype="multipart/form-data" >
                                 <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="updatetype" value="personalprofile">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
@@ -181,7 +182,7 @@
                                         <div class="form-group">
                                             <label>Place of Birth</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" data-validation-required-message="This field is required"  value="{{ $employee->PlaceOfBirth }}" >
+                                                <input type="text" name="placeofbirth" class="form-control" data-validation-required-message="This field is required"  value="{{ $employee->PlaceOfBirth }}" >
                                             </div>
                                         </div>
                                     </div>
@@ -189,7 +190,7 @@
                                         <div class="form-group">
                                             <label>CitizenShip</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" data-validation-required-message="This field is required"  value="{{ $employee->Citizenship }}">
+                                                <input type="text" name="citizenship" class="form-control" data-validation-required-message="This field is required"  value="{{ $employee->Citizenship }}">
                                             </div>
                                         </div>
                                     </div>
@@ -213,9 +214,10 @@
                                         <div class="form-group">
                                             <label>Department</label>
                                             <div class="controls">
-                                                <select class='form-control  border-input'  name='employmentstatus'    >
-                                                    <option value='Department 01' >Department 01</option>
-                                                    <option value='Department 02' >Department 02</option>
+                                                <select class='form-control  border-input'  name='department'>
+                                                    @foreach($department as $data)
+                                                    <option value='{{ $data->id }}' >{{ $data->Description }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -224,7 +226,7 @@
                                         <div class="form-group">
                                             <label>Email Address</label>
                                             <div class="controls">
-                                                <input type="email" name="email" class="form-control" data-validation-required-message="This field is required" value="{{ $employee->EmailAddress }}">
+                                                <input type="email" name="emailaddress" class="form-control" value="{{ $employee->EmailAddress }}">
                                             </div>
                                         </div>
                                     </div>
@@ -256,6 +258,7 @@
                         <div class="card">
                             <form class="form-horizontal" id='form-employee-address'>
                                 <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="updatetype" value="address">
                                 <h6><b>Residential</b></h6>
                                 <hr>
                                 <div class="row">
@@ -318,7 +321,7 @@
                                         <div class="form-group">
                                             <label> House No.  *</label>
                                             <div class="controls">
-                                                <input type="text" name="phouseno" class="form-control form-control-sm" data-validation-required-message="This field is required" >
+                                                <input type="text" name="phouseno" class="form-control form-control-sm" value="{{ $employee->PHouseNo }}">
                                             </div>
                                         </div>
                                     </div>
@@ -326,7 +329,7 @@
                                         <div class="form-group">
                                             <label> HouseStreet</label>
                                             <div class="controls">
-                                                <input type="text" name="phousestreet" class="form-control form-control-sm" data-validation-required-message="This field is required" >
+                                                <input type="text" name="phousestreet" class="form-control form-control-sm" value="{{ $employee->PHouseStreet }}">
                                             </div>
                                         </div>
                                     </div>
@@ -334,7 +337,7 @@
                                         <div class="form-group">
                                             <label> SubDivision</label>
                                             <div class="controls">
-                                                <input type="text" name="psubdivision" class="form-control form-control-sm" data-validation-required-message="This field is required">
+                                                <input type="text" name="psubdivision" class="form-control form-control-sm"  value="{{ $employee->PSubDivision}}" >
                                             </div>
                                         </div>
                                     </div>
@@ -345,7 +348,7 @@
                                         <div class="form-group">
                                             <label> Barangay</label>
                                             <div class="controls">
-                                                <input type="text" name="pbarangay" class="form-control" data-validation-required-message="This field is required" placeholder="">
+                                                <input type="text" name="pbarangay" class="form-control" value="{{ $employee->PBarangay}}">
                                             </div>
                                         </div>
                                     </div>
@@ -353,7 +356,7 @@
                                         <div class="form-group">
                                             <label>Telephone</label>
                                             <div class="controls">
-                                                <input type="text" name="ptelephone" class="form-control" data-validation-required-message="This field is required" placeholder="">
+                                                <input type="text" name="ptelephone" class="form-control" value="{{ $employee->RTelephone  }}">
                                             </div>
                                         </div>
                                     </div>
@@ -361,7 +364,7 @@
                                         <div class="form-group">
                                             <label>Zip Code</label>
                                             <div class="controls">
-                                                <input type="text" name="pzip" class="form-control" data-validation-required-message="This field is required" placeholder="">
+                                                <input type="text" name="pzip" class="form-control" value="{{ $employee->PZip }}">
                                             </div>
                                         </div>
                                     </div>  
@@ -373,34 +376,45 @@
                     </div>
                     <div class="tab-pane" id="card" aria-labelledby="about-tab" role="tabpanel">
                         <div class="card">
-                            <form class="form-horizontal" action='' novalidate>
+                            <form class="form-horizontal" id="form-employee-cardnumber">
+                                <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="updatetype" value="cardnumber">
                                 <div class="row">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>Tin</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control form-control-sm" 
+                                                <input type="text" name="tin" class="form-control form-control-sm" 
                                                 value="{{ $employee->TIN }}"
                                                 >
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>GSISID</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control form-control-sm" 
+                                                <input type="text" name="gsisid" class="form-control form-control-sm" 
                                                 value="{{ $employee->GSISID }}"
                                                 >
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <label>PagIbig-ID</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control form-control-sm" 
+                                                <input type="text" name="pagibigid" class="form-control form-control-sm" 
                                                 value="{{ $employee->PagIbigID }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label>PhilHealth</label>
+                                            <div class="controls">
+                                                <input type="text" name="philhealth" class="form-control form-control-sm" 
+                                                value="{{ $employee->PhilHealth }}">
                                             </div>
                                         </div>
                                     </div>
@@ -411,7 +425,7 @@
                                         <div class="form-group">
                                             <label>SSS</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" 
+                                                <input type="text" name="sss" class="form-control" 
                                                 value="{{ $employee->SSS }}">
                                             </div>
                                         </div>
@@ -420,7 +434,7 @@
                                         <div class="form-group">
                                             <label>Height</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control" 
+                                                <input type="text" name="height" class="form-control" 
                                                 value="{{ $employee->Height }}"
                                                 >
                                             </div>
@@ -430,7 +444,7 @@
                                         <div class="form-group">
                                             <label>Weight</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control"
+                                                <input type="text" name="weight" class="form-control"
                                                 value="{{ $employee->Weight }}"
                                                 >
                                             </div>
@@ -448,19 +462,21 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <button type="button" class="btn btn-sm btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-sm btn-primary" id="btn-edit-employee-cardnumber">Save Changes</button>
                             </form>
                         </div>
                     </div>
                     <div class="tab-pane" id="others" aria-labelledby="about-tab" role="tabpanel">
                         <div class="card">
-                            <form class="form-horizontal" action='' novalidate>
+                            <form class="form-horizontal" id="form-employee-other">
+                                <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="updatetype" value="other">
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Agency Number</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control " 
+                                                <input type="text" name="agencynumber" class="form-control " 
                                                 value="{{ $employee->AgencyNumber }}"
                                                 >
                                             </div>
@@ -470,7 +486,7 @@
                                         <div class="form-group">
                                             <label>Login Computation</label>
                                             <div class="controls">
-                                                <input type="text" name="text" class="form-control " 
+                                                <input type="text" name="logincomputation" class="form-control " 
                                                 value="{{ $employee->LoginComputation }}"
                                                 >
                                             </div>
@@ -480,7 +496,7 @@
                                         <div class="form-group">
                                             <label>Is Active</label>
                                             <div class="controls">
-                                                <select class='form-control  border-input' data-validation-required-message="This field is required" name='sex' value='{{ $employee->isActive }}' >
+                                                <select class='form-control  border-input' name='isactive' value='{{ $employee->isActive }}' >
                                                     <option value="" disabled selected></option>
                                                         <option value='0' >No</option>
                                                         <option value='1' >Yes</option>
@@ -503,7 +519,7 @@
                                     </div>
                                 </div> --}}
                                 <hr>
-                                <button type="button" class="btn btn-sm btn-primary">Save Changes</button>
+                                <button type="button" class="btn btn-sm btn-primary" id="btn-edit-employee-other">Save Changes</button>
                             </form>
                         </div>
                     </div>
@@ -539,8 +555,12 @@
                     success:function(data){
 
                         if(data.status === 401){
+
+                          
                             $.each(data.error, function(prefix,val){
-                                $('#form-employee-address').find('span.'+prefix+'_error').text(val[0]);
+
+                                toastr.error(val[0]);
+                                //$('#form-employee-address').find('span.'+prefix+'_error').text(val[0]);
                             });
                         }else if(data.status === 200){
                             console.log('success');
@@ -548,10 +568,11 @@
                             //alert(data.msg);
                          //   $('#countries-table').DataTable().ajax.reload(null,false);
                             toastr.success(data.msg);
-                        }else {
-                            window.location.href = '/employee'
                         }
+                           
+                        
                         $('#btn-edit-employee-address').text('Save Changes');
+                       
                     }
 
                 });
@@ -569,11 +590,11 @@
                     // dataType: false,
                     // contentType: false,
                     beforeSend:function(){
-                        console.log('111');
+                    
                          $('#btn-update-employee-personal-profile').text('Loading..');
                     },
                     success:function(data){
-                        console.log('DATA PROFILE:',data);
+                       
 
                         if(data.status === 401){
                             $.each(data.error, function(prefix,val){
@@ -584,9 +605,9 @@
                             //alert(data.msg);
                          //   $('#countries-table').DataTable().ajax.reload(null,false);
                             toastr.success(data.msg);
-                        }else {
-                            window.location.href = '/employee'
                         }
+                          //  window.location.href = '/employee'
+                        
                         $('#btn-update-employee-personal-profile').text('Save Changes');
                     }
 
@@ -594,6 +615,78 @@
 
 
             });
+
+
+            $('#btn-edit-employee-cardnumber').on('click', function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: '/employee/update',
+                    method: 'post',
+                    data: $('#form-employee-cardnumber').serialize(),
+                    // processData: false,
+                    // dataType: false,
+                    // contentType: false,
+                    beforeSend:function(){
+                         $('#btn-edit-employee-cardnumber').text('Loading..');
+                    },
+                    success:function(data){
+                        if(data.status === 401){
+                            $.each(data.error, function(prefix,val){
+                                $('#form-employee-cardnumber').find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else if(data.status === 200){
+                          //  $('#add-employee-form')[0].reset();
+                            //alert(data.msg);
+                         //   $('#countries-table').DataTable().ajax.reload(null,false);
+                            toastr.success(data.msg);
+                        }
+                        else {
+                            //window.location.href = '/employee'
+                        }
+                        $('#btn-edit-employee-cardnumber').text('Save Changes');
+                    }
+
+                });
+
+
+            });
+
+
+
+            $('#btn-edit-employee-other').on('click', function(e){
+                e.preventDefault();
+                console.log('edit-employeee-profile');
+                $.ajax({
+                    url: '/employee/update',
+                    method: 'post',
+                    data: $('#form-employee-other').serialize(),
+                    // processData: false,
+                    // dataType: false,
+                    // contentType: false,
+                    beforeSend:function(){
+                         $('#btn-update-employee-personal-profile').text('Loading..');
+                    },
+                    success:function(data){
+                        if(data.status === 401){
+                            $.each(data.error, function(prefix,val){
+                                $('#add-employee-form').find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else if(data.status === 200){
+                          //  $('#add-employee-form')[0].reset();
+                            //alert(data.msg);
+                         //   $('#countries-table').DataTable().ajax.reload(null,false);
+                            toastr.success(data.msg);
+                        }else {
+                           // window.location.href = '/employee'
+                        }
+                        $('#btn-edit-employee-other').text('Save Changes');
+                    }
+
+                });
+
+
+            });
+
 
             
 
