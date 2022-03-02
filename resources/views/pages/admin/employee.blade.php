@@ -46,37 +46,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($employees as $employee)
-                                        <tr>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer icon-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
-                                                    <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="{{ route('employee.edit',['id' => $employee->id]) }}"><i class="bx bx-edit-alt mr-1"></i> edit</a>
-                                                        <a class="dropdown-item btn-delete-employee" href="#" data-id="{{  $employee->id }}"><i class="bx bx-trash mr-1"></i> delete</a>
-                                                    </div>
-                                                </div>
-                                                {{-- <div class="d-flex" >
-                                                    <a href="{{ route('employee.edit',['id' => $employee->id]) }}" class="text-info">edit </a> |  
-                                                    <a href="#" class="text-danger btn-delete-employee" data-id="{{  $employee->id }}"> delete</a>
-                                                  </div> --}}
-                                                
-                                            </td>
-                                            <td>{{ $employee->FirstName }}</td>
-                                            <td>{{ $employee->MiddleName }}</td>
-                                            <td>{{ $employee->LastName }}</td>
-                                            <td>{{ $employee->Sex }}</td>
-                                            <td>{{ $employee->EmailAddress }}</td>
-                                            <td>{{ $employee->Phone }}</td>
-                                            <td>{{ $employee->Cellphone }}</td>
-                                            <td>{{ $employee->EmploymentStatus }}</td>
-                                            <td>
-                                                {{$employee->Department}}
-                                            </td>
-                                          
-                                        </tr>
-                                    @endforeach
-                                </tfoot>
+                                    
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -331,7 +302,24 @@
             }
         });
         $(function(){
-            
+
+
+            // // Encrypt
+            // var ciphertext = CryptoJS.AES.encrypt('my message', 'secret key 123');
+
+            // // Decrypt
+            // var bytes = CryptoJS.AES.decrypt(ciphertext.toString(), 'secret key 123');
+            // var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+            // console.log(ciphertext);
+            // console.log(plaintext);
+
+            //console.log(btoa("id=117"));
+
+           //console.log(atob("Y2F0ZWdvcnk9dGV4dGlsZSZ1c2VyPXVzZXIx"));
+
+
+
+            fetchStudent();
             $('.btn-delete-employee').on('click', function(e){
               //  e.preventDefault();
                // alert('asdsa')
@@ -340,11 +328,52 @@
                 $('#delete_id').val(id);
                  $('#delete-employee-modal').modal('show');
             });
+
+
+                function fetchStudent(){
+                    $.ajax({
+                    url: '/api/employee',
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response){
+                        console.log('response:',response);
+
+                        if(response.status === 200){
+
+                        }else{
+                            console.log('NO DATA IN EMPLOYEE');
+                        }
+                       $.each(response.data , function (key, item){
+
+                        $('tbody').append('<tr>\
+                        <td><div class="dropdown">\
+                                <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer icon-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>\
+                                <div class="dropdown-menu dropdown-menu-right">\
+                                    <a class="dropdown-item" href="/employee/edit/'+btoa(item.id)+'"><i class="bx bx-edit-alt mr-1"></i> edit</a>\
+                                    <a class="dropdown-item btn-delete-employee" href="#" data-id="'+item.id+'"><i class="bx bx-trash mr-1"></i> delete</a>\
+                                </div>\
+                            </div></td>\
+                        <td>'+item.FirstName+'</td>\
+                        <td>'+item.MiddleName+'</td>\
+                        <td>'+item.LastName+'</td>\
+                        <td>'+item.Sex+'</td>\
+                        <td>'+item.EmailAddress+'</td>\
+                        <td>'+item.Phone+'</td>\
+                        <td>'+item.Cellphone+'</td>\
+                        <td>'+item.EmploymentStatus+'</td>\
+                        <td>'+item.EmploymentStatus+'</td>\
+                        </tr>');
+                       });  
+                    } 
+                });
+
+                }
+            
             
             $('#confirm-delete-employee').on('click', function(e){
                 e.preventDefault();
                 $.ajax({
-                    url: '/employee/delete',
+                    url: '/api/employee/delete',
                     method: 'post',
                     data: $('#delete-employee-form').serialize(),
                     // processData: false,
@@ -373,11 +402,8 @@
             });
             $('#add-employee-btn').on('click', function(e){
                 e.preventDefault();
-
-                //var form = this;
-              ///  console.log(form);
                 $.ajax({
-                    url: '/employee/create',
+                    url: 'http://localhost:8000/api/employee/create',
                     method: 'post',
                     data: $('#add-employee-form').serialize(),
                     // processData: false,

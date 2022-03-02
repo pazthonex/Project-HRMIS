@@ -61,7 +61,7 @@
                     <div class="tab-pane active" id="personal" aria-labelledby="home-tab" role="tabpanel">
                         <div class="card">
                             <form class="form-horizontal" id='form-update-employee-personal-profile' enctype="multipart/form-data" >
-                                <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="pp_id" id="pp_id" value="{{ $employee->id }}">
                                 <input type="hidden" name="updatetype" value="personalprofile">
                                 <div class="row">
                                     <div class="col-md-4">
@@ -255,7 +255,7 @@
                     <div class="tab-pane" id="address" aria-labelledby="profile-tab" role="tabpanel">
                         <div class="card">
                             <form class="form-horizontal" id='form-employee-address'>
-                                <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="ad_id" id="ad_id" value="{{ $employee->id }}">
                                 <input type="hidden" name="updatetype" value="address">
                                 <h6><b>Residential</b></h6>
                                 <hr>
@@ -375,7 +375,7 @@
                     <div class="tab-pane" id="card" aria-labelledby="about-tab" role="tabpanel">
                         <div class="card">
                             <form class="form-horizontal" id="form-employee-cardnumber">
-                                <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="cn_id" id="cn_id" value="{{ $employee->id }}">
                                 <input type="hidden" name="updatetype" value="cardnumber">
                                 <div class="row">
                                     <div class="col-md-3">
@@ -467,7 +467,7 @@
                     <div class="tab-pane" id="others" aria-labelledby="about-tab" role="tabpanel">
                         <div class="card">
                             <form class="form-horizontal" id="form-employee-other">
-                                <input type="hidden" name="id" value="{{ $employee->id }}">
+                                <input type="hidden" name="o_id" id="o_id" value="{{ $employee->id }}">
                                 <input type="hidden" name="updatetype" value="other">
                                 <div class="row">
                                    
@@ -544,9 +544,9 @@
         $(function(){
             $('#btn-edit-employee-address').on('click', function(e){
                 e.preventDefault();
-                console.log('edit-employeee-address');
+                var id = $('#ad_id').val();
                 $.ajax({
-                    url: '/employee/update',
+                    url: '/api/employee/update/'+id,
                     method: 'post',
                     data: $('#form-employee-address').serialize(),
                     // processData: false,
@@ -584,9 +584,9 @@
             });
             $('#btn-update-employee-personal-profile').on('click', function(e){
                 e.preventDefault();
-                console.log('edit-employeee-profile');
+                var id = $('#pp_id').val();
                 $.ajax({
-                    url: '/employee/update',
+                    url: '/api/employee/update/'+id,
                     method: 'post',
                     data: $('#form-update-employee-personal-profile').serialize(),
                     // processData: false,
@@ -622,8 +622,9 @@
 
             $('#btn-edit-employee-cardnumber').on('click', function(e){
                 e.preventDefault();
+                var id = $('#cn_id').val();
                 $.ajax({
-                    url: '/employee/update',
+                    url: '/api/employee/update/'+id,
                     method: 'post',
                     data: $('#form-employee-cardnumber').serialize(),
                     // processData: false,
@@ -658,9 +659,9 @@
 
             $('#btn-edit-employee-other').on('click', function(e){
                 e.preventDefault();
-                console.log('edit-employeee-profile');
+                var id = $('#o_id').val();
                 $.ajax({
-                    url: '/employee/update',
+                    url: '/api/employee/update/'+id,
                     method: 'post',
                     data: $('#form-employee-other').serialize(),
                     // processData: false,

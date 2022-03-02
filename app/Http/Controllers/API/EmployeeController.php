@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Models\Employee;
@@ -14,46 +14,50 @@ use App\Models\Department;
 
 class EmployeeController extends Controller
 {
+   
     public function index(){
-       
-            $employees = Employee::all();
-            $department = Department::all();
-            $aes = new EncryptDecrypt();
-          //  dd($employees);
-           return view('pages.admin.employee', compact('employees', 'department'));
-    }
-    public function getallstudents(){
       $employees = Employee::all();
       return response()->json(
         ['status'=>200,
         'data'=>$employees]);
     }
     
-    public function edit($id){
-
-     //dd($id);
-     $id = base64_decode($id);
-        $employee = Employee::find($id);
+    public function edit(Request $request){
+        $employees = Employee::find($request->id);
         $department = Department::all();
-      //  $aes = new EncryptDecrypt();
-      //dd($employee);
-       if($employee){
-            return view('pages.admin.employee.edit', compact('employee','department'));
+       if($employees){
+
+          return response()->json(
+            ['status'=>200,
+            'employees'=>$employees,
+            'department'=>$department,
+          ]);
+
         }
-     /// return redirect('/employee');
+        return response()->json(
+          ['status'=>404,
+          'msg'=> 'Not Found',
+        ]);
    }
    public function store(Request $request){
 
     $aes = new EncryptDecrypt();
-    $validator = Validator::make($request->all(),[
-    'firstname' => 'required',
-    'lastname' => 'required',
-    'emailaddress' => 'required|email|unique:employee,EmailAddress',
-   ]);
 
-    if(!$validator->passes()){
-        return response()->json(['status'=>401,'error'=>$validator->errors()->toArray()]);
-    }
+    $validator = Validator::make($request->all(),[
+      'firstname' => 'required',
+      'lastname' => 'required',
+      'emailaddress' => 'required|email|unique:employee,EmailAddress',
+  ]
+  );
+
+  if($validator->fails()){
+      return response()->json([
+          'status' => 400,
+          'errors' => $validator->messages(),
+      ]);
+  }
+
+
    
            $employee = new Employee();
             $employee->FirstName = $request->firstname;
@@ -92,9 +96,12 @@ class EmployeeController extends Controller
           'emailaddress' => 'required|email|unique:employee,EmailAddress,'.$request->id,
          ]);
       
-          if(!$validator->passes()){
-              return response()->json(['status'=>401,'error'=>$validator->errors()->toArray()]);
-          }
+         if($validator->fails()){
+          return response()->json([
+              'status' => 400,
+              'errors' => $validator->messages(),
+          ]);
+      }
         $employee->FirstName = $request->firstname;
         $employee->MiddleName = $request->middlename;
         $employee->LastName = $request->lastname;
@@ -146,7 +153,7 @@ class EmployeeController extends Controller
      $employee->update();
      return response()->json(['status'=>200,'msg'=>'Employee Updated!']);
     }           
-    return view('pages.admin.employee');
+    return response()->json(['status'=>404,'msg'=>'Employee Not Found!']);
    
    }
 
@@ -158,7 +165,11 @@ class EmployeeController extends Controller
             $employee->delete();
             return response()->json(['status'=>200,'msg'=>'Employee Deleted!']);
         }
-        return view('pages.admin.employee');
+        return response()->json([
+          'status' => 404,
+          'errors' => [
+             'message' => 'Cant Find Employee!']
+      ]);
    }
 
 

@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Admin\AuthController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\API\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,10 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'employee'], function() {
     Route::get('/' , [EmployeeController::class, 'index']);
-    Route::get('/edit' , [EmployeeController::class, 'edit'])->name('employee.edit');
-    Route::post('/create' , [EmployeeController::class, 'store'])->name('employee.add');
-    Route::post('/update' , [EmployeeController::class, 'update'])->name('employee.update');
-    Route::post('/delete' , [EmployeeController::class, 'destroy'])->name('employee.delete');
+    Route::get('/{id}' , [EmployeeController::class, 'edit']);
+    Route::post('/create' , [EmployeeController::class, 'store']);
+    Route::post('/update/{id}' , [EmployeeController::class, 'update']);
+    Route::delete('/delete' , [EmployeeController::class, 'destroy']);
 });
 
 

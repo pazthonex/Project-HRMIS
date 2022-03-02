@@ -31,7 +31,7 @@ Route::post('auth/register' , [AuthController::class, 'register'])->name('auth.r
  
 Route::group(['prefix' => 'employee'], function() {
     Route::get('/' , [EmployeeController::class, 'index']);
-    Route::get('/edit' , [EmployeeController::class, 'edit'])->name('employee.edit');
+    Route::get('/edit/{id}' , [EmployeeController::class, 'edit'])->name('employee.edit');
     Route::post('/create' , [EmployeeController::class, 'store'])->name('employee.add');
     Route::post('/update' , [EmployeeController::class, 'update'])->name('employee.update');
     Route::post('/delete' , [EmployeeController::class, 'destroy'])->name('employee.delete');

@@ -199,6 +199,7 @@
     <script src="{{ asset('app-assets/js/scripts/forms/validation/form-validation.js') }}"></script>
     <script src="../../../app-assets/vendors/js/extensions/toastr.min.js"></script>
     <script src="../../../app-assets/js/scripts/extensions/toastr.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js"></script>
     @stack('scripts')
 </body>
 <!-- END: Body-->
