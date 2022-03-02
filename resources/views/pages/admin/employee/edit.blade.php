@@ -154,20 +154,18 @@
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Current Item</label>
+                                            <label>Agency Number</label>
                                             <div class="controls">
-                                                <select class='form-control  border-input'  name='currentitem' 
-                                                value="{{ $employee->CurrentItem }}"
+                                                <input type="text" name="agencynumber" class="form-control " 
+                                                value="{{ $employee->AgencyNumber }}"
                                                 >
-                                                        <option value='1' >Current Item 01</option>
-                                                        <option value='2' >Current Item 02</option>
-                                                        <option value='3' >Current Item 03</option>
-                                                    </select>
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Date of Birth</label>
@@ -472,13 +470,18 @@
                                 <input type="hidden" name="id" value="{{ $employee->id }}">
                                 <input type="hidden" name="updatetype" value="other">
                                 <div class="row">
+                                   
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Agency Number</label>
+                                            <label>Current Item</label>
                                             <div class="controls">
-                                                <input type="text" name="agencynumber" class="form-control " 
-                                                value="{{ $employee->AgencyNumber }}"
+                                                <select class='form-control  border-input'  name='currentitem' 
+                                                value="{{ $employee->CurrentItem }}"
                                                 >
+                                                        <option value='1' >Current Item 01</option>
+                                                        <option value='2' >Current Item 02</option>
+                                                        <option value='3' >Current Item 03</option>
+                                                    </select>
                                             </div>
                                         </div>
                                     </div>

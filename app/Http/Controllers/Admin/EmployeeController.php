@@ -20,17 +20,14 @@ class EmployeeController extends Controller
             $department = Department::all();
             $aes = new EncryptDecrypt();
           //  dd($employees);
-           return view('pages.employee', compact('employees', 'department'), [
-             'aes' => $aes
-           ]);
+           return view('pages.admin.employee', compact('employees', 'department'));
     }
     public function edit(Request $request){
         $employee = Employee::find($request->id);
         $department = Department::all();
         $aes = new EncryptDecrypt();
        if($employee){
-            return view('pages.employee.edit', compact('employee','department'), [
-              'aes' => $aes]);
+            return view('pages.admin.employee.edit', compact('employee','department'));
         }
       return redirect('/employee');
    }
@@ -47,7 +44,7 @@ class EmployeeController extends Controller
         return response()->json(['status'=>401,'error'=>$validator->errors()->toArray()]);
     }
    
-    $employee = new Employee();
+           $employee = new Employee();
             $employee->FirstName = $request->firstname;
             $employee->MiddleName = $request->middlename;
             $employee->LastName = $request->lastname;
@@ -57,7 +54,7 @@ class EmployeeController extends Controller
             $employee->Sex  = (empty($request->sex)?"":$aes->encrypt($request->sex));
             $employee->CivilStatus  = (empty($request->civilstatus)?"":$aes->encrypt($request->civilstatus));
             $employee->CitizenShip  = (empty($request->citizenship)?"":$aes->encrypt($request->citizenship));
-            $employee->CurrentItem = $request->currentitem;
+            $employee->AgencyNumber = $request->agencynumber;
             $employee->EmploymentStatus  = $request->employmentstatus;
             $employee->Department  = $request->department;
             $employee->EmailAddress  = $request->emailaddress;
@@ -94,7 +91,7 @@ class EmployeeController extends Controller
         $employee->Prefix = $request->prefix;
         $employee->Suffix = $request->suffix;
         $employee->Sex = (empty($request->sex)?"":$aes->encrypt($request->sex));
-        $employee->CurrentItem = $request->currentitem;
+        $employee->AgencyNumber = $request->agencynumber;
         $employee->PlaceOfBirth = (empty($request->placeofbirth)?"":$aes->encrypt($request->placeofbirth));
         $employee->CivilStatus = (empty($request->civilstatus)?"":$aes->encrypt($request->civilstatus));
         $employee->Citizenship = (empty($request->citizenship)?"":$aes->encrypt($request->citizenship));
@@ -130,14 +127,15 @@ class EmployeeController extends Controller
       $employee->BloodType = $request->bloodtype;
      }
      if($request->updatetype == 'other'){
-      $employee->AgencyNumber = $request->agencynumber;
+      
       $employee->LoginComputation = $request->logincomputation;
       $employee->isactive = $request->isActive;
+      $employee->CurrentItem = $request->currentitem;
      }
      $employee->update();
      return response()->json(['status'=>200,'msg'=>'Employee Updated!']);
     }           
-    return view('pages.employee');
+    return view('pages.admin.employee');
    
    }
 
@@ -149,7 +147,7 @@ class EmployeeController extends Controller
             $employee->delete();
             return response()->json(['status'=>200,'msg'=>'Employee Deleted!']);
         }
-        return view('pages.employee');
+        return view('pages.admin.employee');
    }
 
 

@@ -49,10 +49,18 @@
                                     @foreach ($employees as $employee)
                                         <tr>
                                             <td>
-                                                <div class="d-flex" >
+                                                <div class="dropdown">
+                                                    <span class="bx bx-dots-vertical-rounded font-medium-3 dropdown-toggle nav-hide-arrow cursor-pointer icon-light" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="menu"></span>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        <a class="dropdown-item" href="{{ route('employee.edit',['id' => $employee->id]) }}"><i class="bx bx-edit-alt mr-1"></i> edit</a>
+                                                        <a class="dropdown-item btn-delete-employee" href="#" data-id="{{  $employee->id }}"><i class="bx bx-trash mr-1"></i> delete</a>
+                                                    </div>
+                                                </div>
+                                                {{-- <div class="d-flex" >
                                                     <a href="{{ route('employee.edit',['id' => $employee->id]) }}" class="text-info">edit </a> |  
                                                     <a href="#" class="text-danger btn-delete-employee" data-id="{{  $employee->id }}"> delete</a>
-                                                  </div>
+                                                  </div> --}}
+                                                
                                             </td>
                                             <td>{{ $employee->FirstName }}</td>
                                             <td>{{ $employee->MiddleName }}</td>
@@ -204,13 +212,9 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Current Item</label>
+                                <label>AgencyNumber</label>
                                 <div class="controls">
-                                    <select class='form-control  border-input'  name='currentitem'  data-validation-required-message="This field is required"  >
-                                            <option value='1' >Current Item 01</option>
-                                            <option value='2' >Current Item 02</option>
-                                            <option value='3' >Current Item 03</option>
-                                        </select>
+                                    <input type="text" name="agencynumber" class="form-control">
                                 </div>
                             </div>
                         </div>

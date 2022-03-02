@@ -10,7 +10,7 @@
     <meta name="description" content="Frest admin is super flexible, powerful, clean &amp; modern responsive bootstrap 4 admin template with unlimited possibilities.">
     <meta name="keywords" content="admin template, Frest admin template, dashboard template, flat admin template, responsive admin template, web app">
     <meta name="author" content="PIXINVENT">
-    <title>Lock Screen - Frest - Bootstrap HTML admin template</title>
+    <title>LOGIN - HRMIS</title>
     <link rel="apple-touch-icon" href="{{ asset('app-assets/images/ico/apple-icon-120.png') }}">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('app-assets/images/ico/favicon.ico') }}">
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,600%7CIBM+Plex+Sans:300,400,500,600,700" rel="stylesheet">
@@ -60,21 +60,25 @@
                                     <div class="card disable-rounded-right mb-0 p-2">
                                         <div class="card-header pb-1">
                                             <div class="card-title">
-                                                <h4 class="text-center mb-2">Welcome to HRMIS</h4>
+                                                <h4 class="text-center mb-2">Welcome to HRMIS - HR</h4>
                                             </div>
                                         </div>
                                         <div class="card-content">
                                             <div class="card-body">
                                                 <form  method="POST" id="form-auth-login" >
                                                     @csrf
-                                                    <input type="hidden"  >
+                                                    <input type="hidden" name="role" value="1" >
                                                     <div class="form-group mb-50">
-                                                        <label class="text-bold-600" for="exampleInputEmail1">Email address</label>
-                                                        <input  id="email" type="email" name="email" class="form-control"  required autocomplete="email" autofocus></div>
+                                                        <label class="text-bold-600" for="exampleInputEmail1">Username</label>
+                                                        <input  type="text" name="username" class="form-control"  required autocomplete="username" autofocus></div>
                                                     <div class="form-group">
                                                         <label class="text-bold-600" for="exampleInputPassword1">Password</label>
                                                         <input type="password" name="password" class="form-control" required autocomplete="current-password">
                                                     </div>
+                                                    <div class="form-group">
+                                                        <small class="text-danger error_msg_login"></small>
+                                                    </div>
+                                                    
                                                     {{-- <div class="text-center mb-1"><a href="auth-login.html" class="card-link"><small>Are
                                                                 you not John Doe ?</small></a></div> --}}
                                                     <button type="button" class="btn btn-primary glow position-relative w-100 btn-login">Login<i id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
@@ -137,19 +141,20 @@
                     success:function(data){
                      
                         console.log("data:::",data);
-                        // if(data.status === 401){
-                        //     $.each(data.error, function(prefix,val){
-                        //         $('#add-employee-form').find('span.'+prefix+'_error').text(val[0]);
-                        //     });
-                        // }else if(data.status === 200){
-                        //   //  $('#add-employee-form')[0].reset();
-                        //     //alert(data.msg);
-                        //  //   $('#countries-table').DataTable().ajax.reload(null,false);
-                        //  $('#add-employee').modal('hide');
-                        //     toastr.success(data.msg);
-                        // }else {
-                        //    window.location.href = '/employee'
-                        // }
+                        if(data.status === 401){
+                           $('.error_msg_login').text(data.msg);
+                        }else if(data.status === 200){
+                          //  $('#add-employee-form')[0].reset();
+                            //alert(data.msg);
+                         //   $('#countries-table').DataTable().ajax.reload(null,false);
+                         //$('#add-employee').modal('hide');
+                         localStorage.setItem('authtoken', data.data.token);
+                        localStorage.setItem('authname', data.data.firstname+' '+data.data.lastname);
+                        localStorage.setItem('authtype', data.data.role);
+                         $('.error_msg_login').text('');
+                          //  toastr.success(data.msg);
+                            window.location.href = '/'
+                        }
 
                     }
 

@@ -65,19 +65,35 @@
                                         </div>
                                         <div class="card-content">
                                             <div class="card-body">
-                                                <form  method="POST" id="form-auth-login" >
+                                                <form  method="POST" id="form-auth-register">
                                                     @csrf
-                                                    <input type="hidden"  >
+                                                    <input type="hidden" name="role" value="1" >
                                                     <div class="form-group mb-50">
-                                                        <label class="text-bold-600" for="exampleInputEmail1">Email address</label>
-                                                        <input  id="email" type="email" name="email" class="form-control"  required autocomplete="email" autofocus></div>
+                                                        <label class="text-bold-600" for="exampleInputEmail1">Firstname</label>
+                                                        <input  type="text" name="firstname" class="form-control"  required autocomplete="firstname" autofocus>
+                                                        <span class="text-danger error-text firstname_error"></span>
+                                                    </div>
+                                                    <div class="form-group mb-50">
+                                                        <label class="text-bold-600" for="exampleInputEmail1">Lastname</label>
+                                                        <input  type="text" name="lastname" class="form-control"  required autocomplete="lastname" autofocus>
+                                                        <span class="text-danger error-text lastname_error"></span>
+                                                    </div>
+                                                    <div class="form-group mb-50">
+                                                        <label class="text-bold-600" for="exampleInputEmail1">Email</label>
+                                                        <input  type="email" name="email" class="form-control"  required autocomplete="email" autofocus>
+                                                        <span class="text-danger error-text email_error"></span>
+                                                    </div>
+                                                    <div class="form-group mb-50">
+                                                        <label class="text-bold-600" for="exampleInputEmail1">Username</label>
+                                                        <input  type="text" name="username" class="form-control"  required autocomplete="username" autofocus>
+                                                        <span class="text-danger error-text username_error"></span>
+                                                    </div>
                                                     <div class="form-group">
                                                         <label class="text-bold-600" for="exampleInputPassword1">Password</label>
                                                         <input type="password" name="password" class="form-control" required autocomplete="current-password">
+                                                        <span class="text-danger error-text password_error"></span>
                                                     </div>
-                                                    {{-- <div class="text-center mb-1"><a href="auth-login.html" class="card-link"><small>Are
-                                                                you not John Doe ?</small></a></div> --}}
-                                                    <button type="button" class="btn btn-primary glow position-relative w-100 btn-login">Login<i id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
+                                                    <button type="button" class="btn btn-primary glow position-relative w-100 btn-login">Register<i id="icon-arrow" class="bx bx-right-arrow-alt"></i></button>
                                                 </form>
                                             </div>
                                         </div>
@@ -125,9 +141,9 @@
             $('.btn-login').on('click', function(e){
 
                 $.ajax({
-                    url: '/auth/login',
+                    url: '/auth/register',
                     method: 'post',
-                    data: $('#form-auth-login').serialize(),
+                    data: $('#form-auth-register').serialize(),
                     // processData: false,
                     // dataType: false,
                     // contentType: false,
@@ -136,20 +152,20 @@
                     },
                     success:function(data){
                      
-                        console.log("data:::",data);
-                        // if(data.status === 401){
-                        //     $.each(data.error, function(prefix,val){
-                        //         $('#add-employee-form').find('span.'+prefix+'_error').text(val[0]);
-                        //     });
-                        // }else if(data.status === 200){
-                        //   //  $('#add-employee-form')[0].reset();
-                        //     //alert(data.msg);
-                        //  //   $('#countries-table').DataTable().ajax.reload(null,false);
-                        //  $('#add-employee').modal('hide');
-                        //     toastr.success(data.msg);
-                        // }else {
-                        //    window.location.href = '/employee'
-                        // }
+                      //  console.log("data:::",data);
+                        if(data.status === 401){
+                            $.each(data.error, function(prefix,val){
+                                $('#add-employee-form').find('span.'+prefix+'_error').text(val[0]);
+                            });
+                        }else if(data.status === 200){
+                          //  $('#add-employee-form')[0].reset();
+                            //alert(data.msg);
+                         //   $('#countries-table').DataTable().ajax.reload(null,false);
+                        // $('#add-employee').modal('hide');
+                            toastr.success(data.msg);
+                        }else {
+                           window.location.href = '/employee'
+                        }
 
                     }
 

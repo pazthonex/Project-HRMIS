@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use Illuminate\Support\Facades\Route;
@@ -16,9 +17,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('pages.dashboard');
+    return view('pages.admin.dashboard');
 });
+Route::get('auth/admin/login' , [AuthController::class, 'login_route']);
+Route::post('auth/login' , [AuthController::class, 'login'])->name('auth.login');
 
+Route::get('auth/hr/login' , [AuthController::class, 'login_route_hr']);
+Route::post('auth/hr/login' , [AuthController::class, 'login_hr'])->name('auth.hr.login');
+
+Route::get('auth/admin/register' , [AuthController::class, 'reg_route']);
+Route::post('auth/register' , [AuthController::class, 'register'])->name('auth.register');
+
+ 
 Route::group(['prefix' => 'employee'], function() {
     Route::get('/' , [EmployeeController::class, 'index']);
     Route::get('/edit' , [EmployeeController::class, 'edit'])->name('employee.edit');
